@@ -2,6 +2,7 @@ import { Bbox } from "./modified/bbox.js"
 import { parsePathData, parsePathDataStr } from "./modified/path-data.js"
 import { XMLParser } from "fast-xml-parser";
 import { getBase64 } from "./modified/svg64";
+import { encode, decode } from "html-entities"
 
 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: '_' });
 
@@ -11,7 +12,23 @@ export function parseSvgFontText(svgStr: string) {
   return { 
     json: svgJson,
     getGlyph(unicode: string): SvgImageOptions {
-      const glyph = font.glyph.find((v: any) => v._unicode.toLowerCase() === unicode.toLowerCase())
+      let m_unicode = unicode
+      if (/^&/.test(m_unicode)) {
+        m_unicode = decode(m_unicode)
+      }
+      if (!/^&/.test(m_unicode)) {
+        m_unicode = encode(m_unicode, { mode: 'extensive' })
+      }
+      const glyph = font.glyph.find((v: any) => {
+        let v_unicode = v._unicode
+        if (!/^&/.test(v_unicode)) {
+          v_unicode = encode(v_unicode, { mode: 'extensive' })
+        }
+        return v_unicode.toLowerCase() === m_unicode.toLowerCase()
+      })
+      if (!glyph) {
+        throw new Error('can not found the unicode: ' + unicode + '/' + m_unicode  )
+      }
       return { d: glyph._d }
     }
   }
