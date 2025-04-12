@@ -10,7 +10,7 @@ export function parseSvgFontText(svgStr: string) {
   const font = svgJson.svg.defs.font
   return { 
     json: svgJson,
-    getGlyph(unicode: string) {
+    getGlyph(unicode: string): SvgImageOptions {
       const glyph = font.glyph.find((v: any) => v._unicode.toLowerCase() === unicode.toLowerCase())
       return { d: glyph._d }
     }
@@ -25,7 +25,7 @@ export function createSvgImage(v: SvgImageOptions) {
 
     const bboxRes = Bbox.path(newPathStr) as any
     const newBbox = [bboxRes.x, bboxRes.y, bboxRes.w, bboxRes.h].join(' ')
-    const text = `
+    const data = `
     <svg 
         xmlns="http://www.w3.org/2000/svg" 
         xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -35,12 +35,10 @@ export function createSvgImage(v: SvgImageOptions) {
     >
         <path d="${newPathStr}" />
     </svg>`
-    return { text, w: bboxRes.w, h: bboxRes.h }
+    return { data, width: bboxRes.w, height: bboxRes.h }
 }
+
 export const svgImageTextToBase64 = getBase64
-// export function svgImageTextToBase64 (svg: string) {
-//     return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)))
-// }
 
 /**
  * scale pathData
