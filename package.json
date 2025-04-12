@@ -1,0 +1,31 @@
+{
+  "name": "@lycx/svgfont2image",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.umd.cjs",
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    "types": "./dist/main.d.ts",
+    "import": "./dist/main.js",
+    "require": "./dist/main.umd.cjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build && tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "~5.7.3",
+    "vite": "^6.1.1",
+    "vitest": "^3.1.1"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.2.0"
+  }
+}
