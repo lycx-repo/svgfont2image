@@ -1,6 +1,6 @@
 {
   "name": "@lycx/svgfont2image",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "files": [
     "dist"
@@ -12,6 +12,10 @@
     "types": "./dist/main.d.ts",
     "import": "./dist/main.js",
     "require": "./dist/main.umd.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lycx-repo/svgfont2image"
   },
   "publishConfig": {
     "access": "public"
